@@ -32,9 +32,12 @@ app.use("/api/tasks", taskRouter);
 
 // Serving frontend
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("/*path", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  const distPath = path.join(__dirname, "../frontend/dist"); // dist folder path
+  
+  app.use(express.static(distPath)); // do static dist folder
+  // Serving frontend file on every request
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
   });
 }
 
